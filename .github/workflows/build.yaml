@@ -16,8 +16,9 @@ jobs:
 #          google-services: ${{ secrets.GOOGLESERVICES }}
 #          firebase-creds: ${{ secrets.FIREBASECREDS }}
 #          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
+
       - name: set env
-        run: echo "::set-env name=NOW::v$(date +'%Y%m%d.%H%M%S')"
+        run: echo “NOW=$(date +'%Y%m%d.%H%M%S')” >> $GITHUB_ENV
        
       - name: Build Release
 #        env:
