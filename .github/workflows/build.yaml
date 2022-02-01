@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/outputs/apk/base/release/app-base-release.apk
+          asset_path: ./app/build/outputs/apk/release/app-release.apk
           asset_name: complications-base-${{ github.ref }}.apk
           asset_content_type: application/zip
           
@@ -53,6 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/outputs/apk/full/release/app-full-release.apk
+          asset_path: ./app/build/outputs/apk/full/app-full.apk
           asset_name: complications-full-${{ github.ref }}.apk
           asset_content_type: application/zip
