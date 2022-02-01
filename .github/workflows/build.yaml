@@ -16,7 +16,9 @@ jobs:
 #          google-services: ${{ secrets.GOOGLESERVICES }}
 #          firebase-creds: ${{ secrets.FIREBASECREDS }}
 #          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
-        
+      - name: set env
+        run: echo "::set-env name=NOW::v$(date +'%Y%m%d.%H%M%S')"
+       
       - name: Build Release
 #        env:
 #          KEYSTORE_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_FILE_PASSWORD }}
@@ -32,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag-test
-          release_name: Release test
+          tag_name: tag-${{ env.NOW }}
+          release_name: Release ${{ env.NOW }}
           draft: false
           prerelease: false
           
