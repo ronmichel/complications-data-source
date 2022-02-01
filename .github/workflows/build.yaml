@@ -25,3 +25,34 @@ jobs:
 #          VERSION: ${{ steps.rel_number.outputs.version }}
 #          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
         run: ./gradlew assembleRelease
+        
+      - name: Create Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          
+      - name: Upload Base APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/base/release/app-base-release.apk
+          asset_name: complications-base-${{ github.ref }}.apk
+          asset_content_type: application/zip
+          
+      - name: Upload Full APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/full/release/app-full-release.apk
+          asset_name: complications-full-${{ github.ref }}.apk
+          asset_content_type: application/zip
