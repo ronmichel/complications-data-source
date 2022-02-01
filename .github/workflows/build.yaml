@@ -1,12 +1,26 @@
 name: Build
 on:
-  schedule:
-    - cron:  '25 12 * * *'
+  push:
+    branches: [ master ]
+
 jobs:
-  build:
+  app_build:
+    name: Github Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      - name: Build the app
-        run: ./gradlew build
+#      - uses: ./.github/actions/inflate-secrets
+#        name: Inflate Secrets
+#        with:
+#          keystore: ${{ secrets.ORIGINAL_KEYSTORE_FILE }}
+#          google-services: ${{ secrets.GOOGLESERVICES }}
+#          firebase-creds: ${{ secrets.FIREBASECREDS }}
+#          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
+
+      - name: Build Release
+#        env:
+#          KEYSTORE_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_FILE_PASSWORD }}
+#          KEYSTORE_ALIAS: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS }}
+#          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS_PASSWORD }}
+#          VERSION: ${{ steps.rel_number.outputs.version }}
+#          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
+        run: ./gradlew assembleRelease
