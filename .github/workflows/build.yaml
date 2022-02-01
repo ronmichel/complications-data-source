@@ -16,9 +16,6 @@ jobs:
 #          google-services: ${{ secrets.GOOGLESERVICES }}
 #          firebase-creds: ${{ secrets.FIREBASECREDS }}
 #          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
-
-      - name: Set current date as env variable
-        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
         
       - name: Build Release
 #        env:
@@ -35,10 +32,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag-$NOW
-          release_name: Release $NOW
+          tag_name: tag-test
+          release_name: Release test
           draft: false
           prerelease: false
+          
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Build Artifacts
+          path: app/build/outputs/   
           
       - name: Upload Base APK
         uses: actions/upload-release-asset@v1
