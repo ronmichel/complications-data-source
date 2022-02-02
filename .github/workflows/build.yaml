@@ -42,7 +42,16 @@ jobs:
 #          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS_PASSWORD }}
 #          VERSION: ${{ steps.rel_number.outputs.version }}
 #          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
-        run: ./gradlew bulid
+        run: ./gradlew build
+     
+      - name: Build Base
+#        env:
+#          KEYSTORE_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_FILE_PASSWORD }}
+#          KEYSTORE_ALIAS: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS }}
+#          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS_PASSWORD }}
+#          VERSION: ${{ steps.rel_number.outputs.version }}
+#          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
+        run: ./gradlew :base:build
         
       - name: Create Github Release
         id: create_release
