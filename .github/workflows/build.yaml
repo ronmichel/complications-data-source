@@ -35,8 +35,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: test3
-          release_name: Release3 "${{ env.NOW }}"
+          tag_name: test4
+          release_name: Release4 "${{ env.NOW }}"
           draft: false
           prerelease: false
 
@@ -54,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: app/build/outputs/   
+          path: ./app/build/outputs/   
           
       - name: Upload3
         uses: actions/upload-artifact@v2
