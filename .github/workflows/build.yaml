@@ -6,9 +6,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-         
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2.5.0
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 #      - uses: ./.github/actions/inflate-secrets
 #        name: Inflate Secrets
 #        with:
@@ -35,8 +50,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: test5
-          release_name: Release5 "${{ env.NOW }}"
+          tag_name: test6
+          release_name: Release6 "${{ env.NOW }}"
           draft: false
           prerelease: false
 
@@ -62,7 +77,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: ./bin/  
+          path: build/
+          
+      - name: Upload4
+        uses: actions/upload-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Build Artifacts
+          path: app/    
           
       - name: Upload Base APK
         uses: actions/upload-release-asset@v1
