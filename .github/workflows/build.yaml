@@ -59,8 +59,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag2
-          release_name: name2
+          tag_name: tag3
+          release_name: name3
           draft: false
           prerelease: false
 
@@ -70,7 +70,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: ./build/   
+          path: base/app/build/  
           
       - name: Upload2
         uses: actions/upload-artifact@v2
@@ -78,7 +78,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: ./app/build/
+          path: ./base/app/build/
           
       - name: Upload3
         uses: actions/upload-artifact@v2
@@ -86,7 +86,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: build/
+          path: ./build/
           
       - name: Upload4
         uses: actions/upload-artifact@v2
@@ -94,7 +94,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: app/   
+          path: ./base/   
           
       - name: Upload5
         uses: actions/upload-artifact@v2
