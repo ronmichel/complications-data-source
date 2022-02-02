@@ -35,8 +35,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: test4
-          release_name: Release4 "${{ env.NOW }}"
+          tag_name: test5
+          release_name: Release5 "${{ env.NOW }}"
           draft: false
           prerelease: false
 
@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: build/   
+          path: ./build/   
           
       - name: Upload2
         uses: actions/upload-artifact@v2
@@ -54,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: ./app/build/outputs/   
+          path: ./app/build/
           
       - name: Upload3
         uses: actions/upload-artifact@v2
@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: Build Artifacts
-          path: bin/  
+          path: ./bin/  
           
       - name: Upload Base APK
         uses: actions/upload-release-asset@v1
