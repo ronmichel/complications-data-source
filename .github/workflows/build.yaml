@@ -59,8 +59,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: test7
-          release_name: Release7 "${{ env.NOW }}"
+          tag_name: test8
+          release_name: Release8 "${{ env.NOW }}"
           draft: false
           prerelease: false
 
