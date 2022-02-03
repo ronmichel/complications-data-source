@@ -30,17 +30,15 @@ jobs:
 #          firebase-creds: ${{ secrets.FIREBASECREDS }}
 #          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
 
-      - name: set env
-        run: echo “NOW=$(date +'%Y%m%d.%H%M%S')” >> $GITHUB_ENV
        
-      - name: Build Release
+#      - name: Build Release
 #        env:
 #          KEYSTORE_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_FILE_PASSWORD }}
 #          KEYSTORE_ALIAS: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS }}
 #          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS_PASSWORD }}
 #          VERSION: ${{ steps.rel_number.outputs.version }}
 #          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
-        run: ./gradlew assembleRelease
+#        run: ./gradlew assembleRelease
             
       - name: Create Github Release
         id: create_release
@@ -48,26 +46,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag6
-          release_name: name6
+          tag_name: $(date +'%Y-%m-%dT%H:%M:%S')
+          release_name: $(date +'%Y-%m-%dT%H:%M:%S')
           draft: false
           prerelease: false
 
-      - name: Upload1
-        uses: actions/upload-artifact@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: Build Artifacts
-          path: ./base/build/outputs/apk/release/base-release.apk  
-          
-      - name: Upload2
-        uses: actions/upload-artifact@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: Build Artifacts
-          path: ./base/build/outputs/apk/release/base.apk
   
       - name: Upload Base APK
         uses: actions/upload-release-asset@v1
@@ -86,5 +69,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./base/build/outputs/apk/release/base-release.apk
-          asset_name: complications-full-5.apk
+          asset_name: complications-base-$(date +'%Y-%m-%dT%H:%M:%S').apk
           asset_content_type: application/zip
