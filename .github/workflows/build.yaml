@@ -5,15 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
       - name: Set up JDK 11
         uses: actions/setup-java@v2.5.0
         with:
           distribution: 'adopt'
           java-version: '11'
-
       - uses: actions/cache@v2
         with:
           path: |
@@ -22,26 +18,22 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-#      - uses: ./.github/actions/inflate-secrets
-#        name: Inflate Secrets
-#        with:
-#          keystore: ${{ secrets.ORIGINAL_KEYSTORE_FILE }}
-#          google-services: ${{ secrets.GOOGLESERVICES }}
-#          firebase-creds: ${{ secrets.FIREBASECREDS }}
-#          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
-
+      - name: Decode Keystore
+        shell: bash
+        env:
+            ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        run: | 
+          echo $ENCODED_STRING | base64 --decode > base/release_keystore.keystore  
       - name: Set current date as env variable
         run: echo "NOW=$(date "+%Y.%m.%d-%H.%M.%S")" >> $GITHUB_ENV
-       
-#      - name: Build Release
-#        env:
-#          KEYSTORE_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_FILE_PASSWORD }}
-#          KEYSTORE_ALIAS: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS }}
-#          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.ORIGINAL_KEYSTORE_ALIAS_PASSWORD }}
-#          VERSION: ${{ steps.rel_number.outputs.version }}
-#          VERSION_CODE: ${{ steps.rel_number.outputs.version-code }}
-#        run: ./gradlew assembleRelease
-            
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew       
+      - name: Build Release
+        run: ./gradlew base:assembleRelease
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}         
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
@@ -51,9 +43,7 @@ jobs:
           tag_name: ${{ env.NOW }}
           release_name: ${{ env.NOW }}
           draft: false
-          prerelease: false
-
-  
+          prerelease: false  
       - name: Upload Base APK
         uses: actions/upload-release-asset@v1
         env:
@@ -61,15 +51,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./base/build/outputs/apk/release/base-release.apk
-          asset_name: complications-base-5.apk
-          asset_content_type: application/zip
-          
-      - name: Upload Full APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./base/build/outputs/apk/release/base-release.apk
-          asset_name: complications-base-$(date +'%Y-%m-%dT%H:%M:%S').apk
+          asset_name: complications-base-${{ env.NOW }}.apk
           asset_content_type: application/zip
