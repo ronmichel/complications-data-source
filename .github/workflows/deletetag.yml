@@ -9,24 +9,24 @@ jobs:
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: false
-          tag_name: refs/heads/master
+          tag_name: test2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: false
-          tag_name: tag2
+          tag_name: test3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: false
-          tag_name: tag4
+          tag_name: test4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: false
-          tag_name: tag5
+          tag_name: test5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
