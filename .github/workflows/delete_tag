@@ -1,6 +1,14 @@
-- uses: dev-drprasad/delete-tag-and-release@v0.2.0
-  with:
-    delete_release: false
-    tag_name: tag3
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+name: Delete Tag
+
+on: workflow_dispatch
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: false
+          tag_name: tag3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
