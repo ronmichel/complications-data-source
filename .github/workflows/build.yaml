@@ -30,6 +30,8 @@ jobs:
 #          firebase-creds: ${{ secrets.FIREBASECREDS }}
 #          playstore-creds: ${{ secrets.PLAYSTORECREDS }}
 
+      - name: Set current date as env variable
+        run: echo "NOW=$(date "+%Y.%m.%d-%H.%M.%S")" >> $GITHUB_ENV
        
 #      - name: Build Release
 #        env:
@@ -46,8 +48,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $(date +'%Y-%m-%dT%H:%M:%S')
-          release_name: $(date +'%Y-%m-%dT%H:%M:%S')
+          tag_name: ${{ env.NOW }}
+          release_name: ${{ env.NOW }}
           draft: false
           prerelease: false
 
