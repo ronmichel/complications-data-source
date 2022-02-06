@@ -25,7 +25,7 @@ jobs:
         env:
             ENCODED_STRING: ${{ secrets.KEYSTORE }}
         run: | 
-          echo $ENCODED_STRING | base64 --decode > base/release_keystore.keystore     
+          echo $ENCODED_STRING | base64 --decode > complete/release_keystore.keystore     
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: build prod
