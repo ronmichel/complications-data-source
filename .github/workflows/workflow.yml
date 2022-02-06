@@ -38,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Build Artifacts
-          path: base/build/outputs/apk/release/complete-release.apk
+          path: complete/build/outputs/apk/release/complete-release.apk
